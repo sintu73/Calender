@@ -1,0 +1,192 @@
+<html>
+<head>
+  
+
+
+<style>
+.weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+}
+table, td {
+    border: 3px  black;
+	
+}
+</style>
+<script>
+//call function calculateDate() when both "month" and "year" will  get initialize;
+var year=-1, month=-1;
+var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov", "Dec"];
+function selectYear(obj){
+
+year=obj;
+if(month!=-1)
+{
+//display();
+calculateDate();
+
+}
+}
+function selectMonth(obj){
+month=monthNames.indexOf(obj);
+if(year!= -1)
+{
+//display();
+	calculateDate();
+	
+}
+
+}
+</script>
+</head>
+<body>
+<input id="txtDate" type="text" name="calSelectedDate" value="" placeholder="Select Date"/>
+<button type="submit" onclick="myinit()" > v </button>
+ <div id="hi1">
+<table border="1" id="myTable">
+<tr>
+<td colspan="7">
+
+
+<script>
+document.getElementById('myTable').style.display="inline-block";
+</script>
+<select name="tbSelYear" onchange='selectMonth(this.value)'id='mselect'>
+<script>
+/*var sel=document.createElement("select");
+sel.setAttribute("id","mselect");
+document.body.appendChild(sel);*/
+
+for(var j=0;j<=11;j++)
+    {
+     var opt=document.createElement("option");
+     var node=document.createTextNode(monthNames[j]);
+     opt.appendChild(node);
+     document.getElementById("mselect").appendChild(opt);
+	}
+	//selectMonth(this.value);
+</script>
+</select>
+<select name="tbSelYear" onchange='selectYear(this.value)'id='yselect'>
+<script>
+
+		//code to select date from 1900 to present date
+		/*var sel1=document.createElement("select");
+sel1.setAttribute("id","yselect");
+document.body.appendChild(sel1);*/
+var start = 1900;
+var end = new Date().getFullYear();
+for(var i=start;i<=end;i++)
+    {
+     var opt=document.createElement("option");
+     var node=document.createTextNode(i);
+     opt.appendChild(node);
+     document.getElementById("yselect").appendChild(opt); 
+    }
+	//selectYear(this.value);
+</script>
+</select>
+
+  </td>
+
+<br>
+<tr>
+
+ 
+    <td>Sun</td>
+    <td>Mon</td>
+    <td>Tue</td> 
+   <td> Wed</td>
+	<td>Thu</td>
+	<td>Fri</td>
+	<td>Sat</td>
+	
+  </tr>
+</table>
+
+</div>
+<script>
+
+function calculateDate()
+{
+//count days of february
+var FebNumberOfDays;
+//myTable.clear();
+if (month == 1){
+    if ( (year%100!=0) && (year%4==0) || (year%400==0)){
+      FebNumberOfDays = 29;
+    }else{
+      FebNumberOfDays = 28;
+    }
+	}
+	
+
+ var dayNames = ["Monday","Tuesday","Wednesday","Thrusday","Friday", "Saturday","Sunday"];
+ var dayPerMonth = ["31", ""+FebNumberOfDays+"","31","30","31","30","31","31","30","31","30","31"];
+//below code for creating row and column dynamically
+var FirstDay;
+FirstDay = new Date(year,month,1);
+var a=FirstDay.getDay();
+var i=0,j=1;
+var c=0;
+ while(j<=dayPerMonth[month])
+ {
+	  if( c==0)
+	  {
+	   var table = document.getElementById("myTable");
+ var row = table.insertRow(-1);
+
+	  }
+	  var cell1 = row.insertCell(c);   //to insert row
+	 
+     if(a<=c)
+   {
+		a=0;
+							//to insert cell dynamically
+		 var btn = document.createElement("INPUT");
+		 btn.type="Button";
+		  btn.style.backgroundColor = " white";
+		  btn.style.width='100%';
+		  btn.style.height='100%';
+		  btn.value=j;
+		  btn.setAttribute("onclick", "choosedate(this.value)");
+		  cell1.appendChild(btn);
+		  j++;
+   }
+	else{
+	cell1.innerHTML = " ";  // cell will get blank till current day of selected year and month will not matched
+	}
+	if(dayNames[c]=='Sunday')     //when "Sunday" will come line will get break to next row after 7 days;
+	{
+	c=-1;
+	}
+	c++;
+	
+ }
+
+ }
+     //to display "date" in required format
+ function choosedate(dd) {
+       	document.getElementById('myTable').style.display='none';
+        document.getElementById('txtDate').value = dd + "-" + monthNames[month] + "-" + year;
+		
+		
+		
+    }
+
+function myinit()
+{
+
+
+	document.getElementById('myTable').style.display="inline-block";
+	jQuery('#hi1 div').html('');
+}
+	
+</script>
+<style>
+table,td{
+	background-color:grey;
+}
+</body>
+</html>
